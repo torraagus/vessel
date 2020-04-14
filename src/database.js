@@ -11,5 +11,5 @@ mongoose.connect(uri, {
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDb database is up and running");
+  console.log("MongoDb is up and running");
 });
