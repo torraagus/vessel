@@ -1,13 +1,63 @@
 const usersCtrl = {};
+const assert = require("assert");
+const User = require("../models/User");
 
-usersCtrl.getUsers = (req, res) => res.json({ message: "List of users" });
-usersCtrl.createUser = (req, res) => res.json({ message: "Post new user" });
+const code = {
+  DUPLICATED_VALUE: "11000",
+};
 
-usersCtrl.getUser = (req, res) =>
-  res.json({ message: `Get user ${req.params.id}` });
-usersCtrl.updateUser = (req, res) =>
-  res.json({ message: `Update user ${req.params.id}` });
-usersCtrl.deleteUser = (req, res) =>
-  res.json({ message: `Delete user ${req.params.id}` });
+usersCtrl.getUsers = async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+};
+
+usersCtrl.createUser = async (req, res) => {
+  const user = new User(req.body);
+  await user.save((err) => {
+    if (err) {
+      const message =
+        err.code == code.DUPLICATED_VALUE
+          ? `The username ${err.keyValue.username} is already in use`
+          : `${err}`;
+      res.json({ message: message });
+      return console.log(message);
+    }
+    res.json({ message: "User saved" });
+  });
+};
+
+usersCtrl.getUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.json({ message: "User not found" });
+    return console.log("User not found");
+  }
+  res.json(user);
+  return console.log(user);
+};
+
+usersCtrl.updateUser = async (req, res) => {
+  await User.findOneAndUpdate(
+    { _id: req.params.id },
+    req.body,
+    { runValidators: true },
+    (err, doc) => {
+      if (err) {
+        res.json({ message: `${err}` });
+        return console.log(`${err}`);
+      }
+      res.json({ message: "User updated" });
+    }
+  ).catch(() => {}); //Here i catch the promise. Async functions always return a promise.
+};
+
+usersCtrl.deleteUser = async (req, res) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  if (!user) {
+    res.json({ message: "User not found" });
+    return console.log("User not found");
+  }
+  res.json({ message: "User deleted" });
+};
 
 module.exports = usersCtrl;
