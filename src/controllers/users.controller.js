@@ -1,5 +1,4 @@
 const usersCtrl = {};
-const assert = require("assert");
 const User = require("../models/User");
 
 const code = {
