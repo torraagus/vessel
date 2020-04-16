@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const uri = `mongodb+srv://${process.env.MONGODB_CREDENTIALS}@cluster0-uvim4.gcp.mongodb.net/test?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0-uvim4.gcp.mongodb.net/test?retryWrites=true&w=majority`;
 
 async function connect() {
   try {
@@ -8,7 +8,7 @@ async function connect() {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     });
   } catch (error) {
     console.log(error);
