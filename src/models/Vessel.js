@@ -94,4 +94,4 @@ const vesselSchema = new Schema(
   }
 );
 
-module.exports = model("User", vesselSchema);
+module.exports = model("Vessel", vesselSchema);
