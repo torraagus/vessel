@@ -12,16 +12,16 @@ const userSchema = new Schema(
         validator: function(v) {
           return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(v);
         },
-        message: props => `${props.value} is not a valid email address`
+        message: props => `${props.value} is not a valid email address.`
       },
     },
     password: {
       type: String,
       minlength: [8, 'Password is too short'],
     },
-    fullname: {
+    businessName: {
       type: String,
-      required: [true, 'Fullname is required'],
+      required: [true, 'The business name is required.'],
       trim: true,
       set: (str) => str.replace(/\s\s+/g, " "),
     },
