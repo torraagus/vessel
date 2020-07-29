@@ -18,6 +18,12 @@ app.use(
   verifyToken,
   require("./routes/users.routes")
 );
+app.use(
+  "/api/vessels",
+  // ensureToken,
+  // verifyToken,
+  require("./routes/vessels.routes")
+);
 app.use("/api/login", require("./routes/login.routes"));
 
 module.exports = app;
