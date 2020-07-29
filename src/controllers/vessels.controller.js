@@ -6,7 +6,7 @@ const code = {
 };
 
 vesselsCtrl.getVessels = async (req, res) => {
-  const vessels = await Vessel.find();
+  const vessels = await Vessel.find(req.query);
   res.json(vessels);
 };
 
